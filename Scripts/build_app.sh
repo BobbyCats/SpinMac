@@ -23,17 +23,23 @@ if [ "$SKIP_TESTS" != "1" ]; then
     swift test
 fi
 
-BUILD_FLAGS=(-c release)
 if [ "$UNIVERSAL" = "1" ]; then
-    echo "==> Building universal release binary (arm64 + x86_64)..."
-    BUILD_FLAGS+=(--arch arm64 --arch x86_64)
+    echo "==> Building universal release binary (arm64 + x86_64 via separate slices + lipo)..."
+    swift build -c release --arch arm64
+    swift build -c release --arch x86_64
+    ARM64_BIN_DIR="$(swift build -c release --arch arm64 --show-bin-path)"
+    X64_BIN_DIR="$(swift build -c release --arch x86_64 --show-bin-path)"
+    UNIVERSAL_OUT_DIR="$ROOT_DIR/.build/universal-release"
+    mkdir -p "$UNIVERSAL_OUT_DIR"
+    BIN_PATH="$UNIVERSAL_OUT_DIR/$APP_NAME"
+    lipo -create "$ARM64_BIN_DIR/$APP_NAME" "$X64_BIN_DIR/$APP_NAME" -output "$BIN_PATH"
+    BIN_DIR="$ARM64_BIN_DIR"
 else
     echo "==> Building native release binary..."
+    swift build -c release
+    BIN_DIR="$(swift build -c release --show-bin-path)"
+    BIN_PATH="$BIN_DIR/$APP_NAME"
 fi
-
-swift build "${BUILD_FLAGS[@]}"
-BIN_DIR="$(swift build "${BUILD_FLAGS[@]}" --show-bin-path)"
-BIN_PATH="$BIN_DIR/$APP_NAME"
 test -x "$BIN_PATH"
 
 if [ "$UNIVERSAL" = "1" ]; then
