@@ -4,25 +4,49 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 APP_NAME="SpinMac"
 BUNDLE_ID="${BUNDLE_ID:-app.spinmac.SpinMac}"
-VERSION="${VERSION:-0.2.1}"
-BUILD_NUM="${BUILD_NUM:-3}"
+VERSION="${VERSION:-0.2.2}"
+BUILD_NUM="${BUILD_NUM:-4}"
 DIST_DIR="$ROOT_DIR/dist"
 APP_BUNDLE="$DIST_DIR/$APP_NAME.app"
 # Defaults to ad-hoc signing (`-`) for open-source contributors.
 # Pass SIGN_IDENTITY="Developer ID Application: ..." for stable TCC permissions & notarization.
 SIGN_IDENTITY="${SIGN_IDENTITY:--}"
 INSTALL_TO_APPLICATIONS="${INSTALL_TO_APPLICATIONS:-1}"
+# Set UNIVERSAL=1 to emit a fat arm64 + x86_64 binary for Apple Silicon & Intel Macs.
+UNIVERSAL="${UNIVERSAL:-0}"
+SKIP_TESTS="${SKIP_TESTS:-0}"
 
 cd "$ROOT_DIR"
 
-echo "==> Running unit tests..."
-swift test
+if [ "$SKIP_TESTS" != "1" ]; then
+    echo "==> Running unit tests..."
+    swift test
+fi
 
-echo "==> Building release binary..."
-swift build -c release
-BIN_DIR="$(swift build -c release --show-bin-path)"
+BUILD_FLAGS=(-c release)
+if [ "$UNIVERSAL" = "1" ]; then
+    echo "==> Building universal release binary (arm64 + x86_64)..."
+    BUILD_FLAGS+=(--arch arm64 --arch x86_64)
+else
+    echo "==> Building native release binary..."
+fi
+
+swift build "${BUILD_FLAGS[@]}"
+BIN_DIR="$(swift build "${BUILD_FLAGS[@]}" --show-bin-path)"
 BIN_PATH="$BIN_DIR/$APP_NAME"
 test -x "$BIN_PATH"
+
+if [ "$UNIVERSAL" = "1" ]; then
+    ARCHS="$(lipo -archs "$BIN_PATH")"
+    echo "==> Verified binary architectures: $ARCHS"
+    case "$ARCHS" in
+        *arm64*x86_64*|*x86_64*arm64*) ;;
+        *)
+            echo "Error: Expected universal arm64 + x86_64 binary, got: $ARCHS" >&2
+            exit 1
+            ;;
+    esac
+fi
 
 echo "==> Generating AppIcon.icns..."
 ICONSET_DIR="$ROOT_DIR/.build/SpinMac.iconset"

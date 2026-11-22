@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Optional release packaging script: builds, signs with Developer ID,
-# notarizes via Apple notarytool, staples the ticket, and emits a release ZIP.
+# Builds a Universal (arm64 + x86_64) SpinMac.dmg signed with Developer ID,
+# submits it to Apple's Notary Service, staples the notarization ticket, and
+# verifies Gatekeeper readiness.
+#
+# One-time setup:
+#   xcrun notarytool store-credentials "spinmac-notary" \
+#     --apple-id "you@example.com" \
+#     --team-id "YOURTEAMID" \
+#     --password "xxxx-xxxx-xxxx-xxxx"
 #
 # Usage:
 #   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" \
-#   NOTARY_PROFILE="AC_PASSWORD_KEYCHAIN_PROFILE" \
+#   NOTARY_PROFILE="spinmac-notary" \
 #   ./Scripts/notarize.sh
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${VERSION:-0.2.1}"
-APP_BUNDLE="$ROOT_DIR/dist/SpinMac.app"
-ZIP_PATH="$ROOT_DIR/dist/SpinMac-${VERSION}-macos.zip"
+VERSION="${VERSION:-0.2.2}"
+DMG_PATH="$ROOT_DIR/dist/SpinMac-${VERSION}-universal.dmg"
 
 if [ -z "${SIGN_IDENTITY:-}" ] || [ "$SIGN_IDENTITY" = "-" ]; then
     echo "Error: SIGN_IDENTITY must be set to a valid Developer ID Application identity." >&2
@@ -24,20 +30,22 @@ if [ -z "${NOTARY_PROFILE:-}" ]; then
     exit 1
 fi
 
-INSTALL_TO_APPLICATIONS=0 SIGN_IDENTITY="$SIGN_IDENTITY" VERSION="$VERSION" "$ROOT_DIR/Scripts/build_app.sh"
+UNIVERSAL=1 \
+SIGN_IDENTITY="$SIGN_IDENTITY" \
+VERSION="$VERSION" \
+"$ROOT_DIR/Scripts/package_dmg.sh"
 
-echo "==> Creating notarization archive..."
-rm -f "$ZIP_PATH"
-ditto -c -k --keepParent "$APP_BUNDLE" "$ZIP_PATH"
+echo "==> Submitting DMG to Apple Notary Service..."
+xcrun notarytool submit "$DMG_PATH" \
+    --keychain-profile "$NOTARY_PROFILE" \
+    --wait
 
-echo "==> Submitting to Apple Notary Service..."
-xcrun notarytool submit "$ZIP_PATH" --keychain-profile "$NOTARY_PROFILE" --wait
+echo "==> Stapling notarization ticket to DMG..."
+xcrun stapler staple "$DMG_PATH"
+xcrun stapler validate "$DMG_PATH"
 
-echo "==> Stapling notarization ticket..."
-xcrun stapler staple "$APP_BUNDLE"
-xcrun stapler validate "$APP_BUNDLE"
+echo "==> Assessing DMG signature..."
+spctl --assess -vv --type open --context context:primary-signature "$DMG_PATH" || true
 
-rm -f "$ZIP_PATH"
-ditto -c -k --keepParent "$APP_BUNDLE" "$ZIP_PATH"
-shasum -a 256 "$ZIP_PATH"
-echo "==> Release archive ready: $ZIP_PATH"
+shasum -a 256 "$DMG_PATH"
+echo "==> Notarized universal DMG ready: $DMG_PATH"

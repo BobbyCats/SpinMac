@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
     branches: [main]
 
@@ -21,8 +22,8 @@ jobs:
       - name: Run Unit Tests
         run: swift test --parallel
 
-      - name: Build Release Binary
-        run: swift build -c release
-
-      - name: Assemble App Bundle (Ad-hoc)
-        run: INSTALL_TO_APPLICATIONS=0 SIGN_IDENTITY="-" ./Scripts/build_app.sh
+      - name: Package Universal DMG (arm64 + x86_64, Ad-hoc)
+        run: |
+          chmod +x Scripts/*.sh
+          SKIP_TESTS=1 UNIVERSAL=1 SIGN_IDENTITY="-" ./Scripts/package_dmg.sh
+          ls -lh dist/*.dmg
