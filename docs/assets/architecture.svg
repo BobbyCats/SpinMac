@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 350" width="1200" height="350" role="img" aria-label="SpinMac Architecture Diagram">
+  <defs>
+    <linearGradient id="archBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C111B"/>
+      <stop offset="100%" stop-color="#111927"/>
+    </linearGradient>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#60A5FA"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2DD4BF"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="350" rx="22" fill="url(#archBg)"/>
+  <rect x="1" y="1" width="1198" height="348" rx="21" fill="none" stroke="#FFFFFF" stroke-opacity="0.10"/>
+
+  <!-- Header -->
+  <text x="40" y="42" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="18" font-weight="700">SpinMac Clean-Room Pipeline</text>
+  <text x="40" y="64" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="13">Single state source → dual isolated native engines → 0% idle CPU at 0°</text>
+
+  <!-- Box 1: Single Source of Truth -->
+  <g transform="translate(40, 102)">
+    <rect width="236" height="196" rx="14" fill="#1E293B" fill-opacity="0.72" stroke="#60A5FA" stroke-opacity="0.45" stroke-width="1.2"/>
+    <text x="18" y="32" fill="#93C5FD" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="700" letter-spacing="0.6">SINGLE SOURCE OF TRUTH</text>
+    <text x="18" y="58" fill="#F8FAFC" font-family="-apple-system, sans-serif" font-size="17" font-weight="700">SpinCoordinator</text>
+    <line x1="18" y1="74" x2="218" y2="74" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <text x="18" y="98" fill="#CBD5E1" font-family="'SF Mono', monospace" font-size="12">• displayAngle: 0|90|180|270</text>
+    <text x="18" y="122" fill="#CBD5E1" font-family="'SF Mono', monospace" font-size="12">• mode: linked|indep|off</text>
+    <text x="18" y="146" fill="#CBD5E1" font-family="'SF Mono', monospace" font-size="12">• independentPadAngle</text>
+    <text x="18" y="170" fill="#CBD5E1" font-family="'SF Mono', monospace" font-size="12">• KeyboardShortcuts (⌃⌥⌘R)</text>
+  </g>
+
+  <!-- Connector 1 -> DisplayEngine -->
+  <path d="M 276 156 L 348 156" fill="none" stroke="#60A5FA" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <!-- Connector 1 -> TrackpadEngine -->
+  <path d="M 276 244 L 348 244" fill="none" stroke="#2DD4BF" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+  <!-- Box 2A: DisplayEngine -->
+  <g transform="translate(356, 94)">
+    <rect width="380" height="104" rx="14" fill="#172554" fill-opacity="0.42" stroke="#3B82F6" stroke-opacity="0.5" stroke-width="1.2"/>
+    <text x="18" y="28" fill="#60A5FA" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6">DISPLAY ENGINE</text>
+    <text x="18" y="52" fill="#F8FAFC" font-family="-apple-system, sans-serif" font-size="15.5" font-weight="700">MonitorPanel.framework + CoreGraphics</text>
+    <text x="18" y="76" fill="#CBD5E1" font-family="-apple-system, sans-serif" font-size="12.5">MPDisplay.setOrientation: • Built-in &amp; External • Reconfig Callback</text>
+  </g>
+
+  <!-- Box 2B: TrackpadEngine -->
+  <g transform="translate(356, 212)">
+    <rect width="380" height="108" rx="14" fill="#0F2E2E" fill-opacity="0.55" stroke="#14B8A6" stroke-opacity="0.5" stroke-width="1.2"/>
+    <text x="18" y="28" fill="#2DD4BF" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6">DEDICATED USER-INTERACTIVE RUNLOOP THREAD</text>
+    <text x="18" y="52" fill="#F8FAFC" font-family="-apple-system, sans-serif" font-size="15.5" font-weight="700">TrackpadEngine + MultitouchMonitor</text>
+    <text x="18" y="75" fill="#CBD5E1" font-family="-apple-system, sans-serif" font-size="12.5">Dual CGEventTap (HID + Session) • SkyLight/IOKit HID Rewriter</text>
+    <text x="18" y="95" fill="#99F6E4" font-family="-apple-system, sans-serif" font-size="11.5">Ref-counted touch leases • External mice pass through untouched</text>
+  </g>
+
+  <!-- Connectors 2 -> 3 -->
+  <path d="M 736 146 L 808 146" fill="none" stroke="#60A5FA" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <path d="M 736 266 L 808 266" fill="none" stroke="#2DD4BF" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+  <!-- Box 3A: Display Output -->
+  <g transform="translate(816, 94)">
+    <rect width="344" height="104" rx="14" fill="#FFFFFF" fill-opacity="0.045" stroke="#FFFFFF" stroke-opacity="0.14"/>
+    <text x="18" y="28" fill="#93C5FD" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6">SAFETY &amp; UX LAYER</text>
+    <text x="18" y="52" fill="#F8FAFC" font-family="-apple-system, sans-serif" font-size="15" font-weight="600">10s Floating Rollback HUD</text>
+    <text x="18" y="76" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="12.5">Auto-centered on target screen • Return / Esc</text>
+  </g>
+
+  <!-- Box 3B: Gesture Parity Output -->
+  <g transform="translate(816, 212)">
+    <rect width="344" height="108" rx="14" fill="#FFFFFF" fill-opacity="0.045" stroke="#FFFFFF" stroke-opacity="0.14"/>
+    <text x="18" y="28" fill="#5EEAD4" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.6">FULL ORIENTATION PARITY</text>
+    <text x="18" y="52" fill="#F8FAFC" font-family="-apple-system, sans-serif" font-size="15" font-weight="600">Pointer • Scroll • Swipes • Spaces</text>
+    <text x="18" y="75" fill="#94A3B8" font-family="-apple-system, sans-serif" font-size="12.5">3-finger drag, inertia, Safari/Finder, Mission Control</text>
+    <text x="18" y="95" fill="#4ADE80" font-family="-apple-system, sans-serif" font-size="11.5">atexit + willTerminate cursor re-association guarantee</text>
+  </g>
+</svg>

@@ -1,0 +1,121 @@
+/* General */
+"app.name" = "SpinMac";
+"display.builtin" = "Built-in Display";
+"display.external" = "External Display %@";
+"display.main" = "Main Display";
+
+/* Angles */
+"angle.0.short" = "Normal";
+"angle.90.short" = "Left";
+"angle.180.short" = "Flipped";
+"angle.270.short" = "Right";
+
+/* Trackpad Modes */
+"trackpad.mode.linked" = "Linked";
+"trackpad.mode.independent" = "Independent";
+"trackpad.mode.off" = "Off";
+
+/* Trackpad Scopes */
+"scope.builtInOnly" = "Built-in Trackpad Only";
+"scope.allTrackpads" = "All Trackpads (Built-in + Magic Trackpad)";
+"scope.externalOnly" = "External Magic Trackpad Only";
+
+/* Languages */
+"lang.system" = "System Default";
+"lang.en" = "English";
+"lang.zhHans" = "简体中文";
+"lang.compact.en" = "EN";
+"lang.compact.zh" = "中";
+
+/* Popover */
+"popover.shortcut.help" = "Toggle between 0° and %@";
+"popover.pose.help" = "Click to toggle between landscape and your preferred portrait angle";
+"popover.pose.synced" = "%@ · Synced";
+"popover.pose.independent" = "Display %@ · Pad %@";
+"popover.pose.padOff" = "Display %@ · Pad Off";
+"popover.section.display" = "Display";
+"popover.section.trackpad" = "Trackpad";
+"popover.trackpad.syncRow" = "Trackpad Orientation";
+"popover.trackpad.independentAngle" = "Trackpad Angle";
+"popover.trackpad.externalNotice" = "Built-in trackpad stays at 0° for external displays";
+"popover.permission.grant" = "Grant Access";
+"popover.permission.help" = "Accessibility & Input Monitoring permissions are required to rotate trackpad input and gestures";
+"popover.safety.rollback" = "10s Safety Rollback";
+"popover.footer.settings" = "Settings…";
+"popover.footer.languageHelp" = "Switch interface language";
+"popover.footer.quit" = "Quit";
+
+/* Tray Context Menu (Right-Click) */
+"menu.quickToggle" = "Quick Toggle (%@ ↔ %@)";
+"menu.displayAngle" = "Display Orientation";
+"menu.trackpadMode" = "Trackpad Mode";
+"menu.trackpadAngle" = "Independent Trackpad Angle";
+"menu.language" = "Language";
+"menu.settings" = "Settings & Calibration…";
+"menu.quit" = "Quit SpinMac";
+
+/* Errors */
+"error.displayUnsupported" = "This display does not expose macOS rotation controls.";
+"error.launchAtLogin" = "Could not update Launch at Login: %@";
+
+/* Revert HUD */
+"hud.title" = "Rotated to %@ (%@)";
+"hud.subtitle" = "Press Return to keep, or Esc to revert immediately";
+"hud.revert" = "Revert (Esc)";
+"hud.keep" = "Keep (↩)";
+
+/* Settings Window & Tabs */
+"settings.window.title" = "SpinMac Settings";
+"settings.tab.general" = "General";
+"settings.tab.trackpad" = "Trackpad";
+"settings.tab.calibration" = "Calibration";
+
+/* General Settings */
+"settings.general.quickToggle" = "Quick Rotation";
+"settings.general.preferredAngle" = "Preferred Portrait Angle";
+"settings.general.shortcutDisplay" = "Toggle Display Rotation";
+"settings.general.shortcutTrackpad" = "Toggle Trackpad Mode";
+"settings.general.shortcutTrackpadHint" = "Optional shortcut to switch trackpad between Linked / Independent / Off";
+"settings.general.system" = "System & Safety";
+"settings.general.safetyRollback" = "Auto-revert after 10s if unconfirmed";
+"settings.general.launchAtLogin" = "Launch SpinMac at Login";
+"settings.general.language" = "Language";
+"settings.general.permissions" = "Permissions (for Trackpad & Multi-Touch Gestures)";
+"settings.perm.accessibility" = "Accessibility";
+"settings.perm.inputMonitoring" = "Input Monitoring";
+"settings.perm.granted" = "Granted";
+"settings.perm.grant" = "Grant…";
+
+/* Trackpad Settings */
+"settings.trackpad.modeSection" = "Orientation Mode";
+"settings.trackpad.modeLabel" = "Sync Mode";
+"settings.trackpad.independentAngle" = "Independent Trackpad Angle";
+"settings.trackpad.scopeSection" = "Device Scope";
+"settings.trackpad.scopeLabel" = "Target Trackpad";
+"settings.trackpad.refreshDevices" = "Refresh Devices";
+"settings.trackpad.gesturesSection" = "Full Gesture Parity";
+"settings.trackpad.remapPointer" = "Pointer Movement & Drag (incl. 3-Finger Drag)";
+"settings.trackpad.remapScroll" = "2-Finger Scroll & Momentum (Natural Scroll Preserved)";
+"settings.trackpad.remapPageSwipes" = "2-Finger Page Navigation (Safari / Finder)";
+"settings.trackpad.remapDockSwipes" = "3/4-Finger Spaces, Mission Control & App Exposé";
+"settings.trackpad.feelSection" = "Pointer & Scroll Feel";
+"settings.trackpad.pointerSpeed" = "Pointer Speed";
+"settings.trackpad.scrollSpeed" = "Scroll Speed";
+"settings.trackpad.resetFeel" = "Reset Speeds";
+
+/* Calibration Settings */
+"settings.cal.subtitle" = "Rest or swipe fingers on your trackpad to verify physical coordinates vs. rotated output in real time.";
+"settings.cal.statusWaiting" = "Waiting for trackpad touch…";
+"settings.cal.statusActive" = "%d finger(s) detected";
+"settings.cal.statusNoPermission" = "Input Monitoring required for live touch preview";
+"settings.cal.statusRecording" = "Swipe visually UPWARD on your rotated trackpad now…";
+"settings.cal.autoCalibrate" = "Swipe Up to Auto-Calibrate";
+"settings.cal.cancelCalibrate" = "Cancel";
+"settings.cal.autoResult" = "Detected %@ — applied to trackpad";
+"settings.cal.rawBox" = "Physical Trackpad";
+"settings.cal.mappedBox" = "Mapped Output (%@)";
+"settings.cal.swapXY" = "Swap X↔Y";
+"settings.cal.invertX" = "Invert X";
+"settings.cal.invertY" = "Invert Y";
+"settings.cal.resetAxes" = "Reset Overrides";
+"settings.cal.mouseNote" = "External mice are intentionally ignored and pass through untouched.";

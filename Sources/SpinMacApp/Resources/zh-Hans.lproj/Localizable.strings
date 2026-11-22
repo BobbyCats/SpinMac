@@ -1,0 +1,121 @@
+/* General */
+"app.name" = "SpinMac";
+"display.builtin" = "内建显示屏";
+"display.external" = "外接显示器 %@";
+"display.main" = "主显示器";
+
+/* Angles */
+"angle.0.short" = "横屏";
+"angle.90.short" = "左竖";
+"angle.180.short" = "倒置";
+"angle.270.short" = "右竖";
+
+/* Trackpad Modes */
+"trackpad.mode.linked" = "联动";
+"trackpad.mode.independent" = "独立";
+"trackpad.mode.off" = "关闭";
+
+/* Trackpad Scopes */
+"scope.builtInOnly" = "仅内建触控板";
+"scope.allTrackpads" = "所有触控板（内建 + 外接妙控板）";
+"scope.externalOnly" = "仅外接妙控板";
+
+/* Languages */
+"lang.system" = "跟随系统";
+"lang.en" = "English";
+"lang.zhHans" = "简体中文";
+"lang.compact.en" = "EN";
+"lang.compact.zh" = "中";
+
+/* Popover */
+"popover.shortcut.help" = "一键切换 0° 与 %@";
+"popover.pose.help" = "点击在横屏与常用竖屏角之间快速翻转";
+"popover.pose.synced" = "%@ · 同步";
+"popover.pose.independent" = "屏幕 %@ · 触控板 %@";
+"popover.pose.padOff" = "屏幕 %@ · 触控板关闭";
+"popover.section.display" = "屏幕方向";
+"popover.section.trackpad" = "触控板方向";
+"popover.trackpad.syncRow" = "触控板模式";
+"popover.trackpad.independentAngle" = "触控板独立角度";
+"popover.trackpad.externalNotice" = "旋转外接屏时，内建触控板默认保持 0°";
+"popover.permission.grant" = "去授权";
+"popover.permission.help" = "需要「辅助功能」与「输入监控」权限以同步旋转触控板与多指手势";
+"popover.safety.rollback" = "10 秒防翻车回滚";
+"popover.footer.settings" = "偏好设置…";
+"popover.footer.languageHelp" = "切换界面语言";
+"popover.footer.quit" = "退出";
+
+/* Tray Context Menu (Right-Click) */
+"menu.quickToggle" = "一键翻转（%@ ↔ %@）";
+"menu.displayAngle" = "屏幕方向";
+"menu.trackpadMode" = "触控板模式";
+"menu.trackpadAngle" = "触控板独立角度";
+"menu.language" = "界面语言";
+"menu.settings" = "偏好与校准…";
+"menu.quit" = "退出 SpinMac";
+
+/* Errors */
+"error.displayUnsupported" = "当前显示器暂不支持 macOS 系统旋转接口。";
+"error.launchAtLogin" = "开机自启设置失败：%@";
+
+/* Revert HUD */
+"hud.title" = "已旋转至 %@（%@）";
+"hud.subtitle" = "按 Return 保留，按 Esc 或等待倒计时自动复原";
+"hud.revert" = "立即复原 (Esc)";
+"hud.keep" = "保留当前方向 (↩)";
+
+/* Settings Window & Tabs */
+"settings.window.title" = "SpinMac 偏好设置";
+"settings.tab.general" = "通用与快捷键";
+"settings.tab.trackpad" = "触控板与手势";
+"settings.tab.calibration" = "方向校准";
+
+/* General Settings */
+"settings.general.quickToggle" = "一键翻转";
+"settings.general.preferredAngle" = "常用竖屏角度";
+"settings.general.shortcutDisplay" = "屏幕翻转快捷键";
+"settings.general.shortcutTrackpad" = "触控板模式切换";
+"settings.general.shortcutTrackpadHint" = "可选：快捷循环切换触控板「联动 / 独立 / 关闭」";
+"settings.general.system" = "系统与安全";
+"settings.general.safetyRollback" = "旋转后 10 秒未确认自动复原";
+"settings.general.launchAtLogin" = "登录时自动启动 SpinMac";
+"settings.general.language" = "界面语言";
+"settings.general.permissions" = "系统权限（用于旋转触控板与多指手势）";
+"settings.perm.accessibility" = "辅助功能（Accessibility）";
+"settings.perm.inputMonitoring" = "输入监控（Input Monitoring）";
+"settings.perm.granted" = "已授权";
+"settings.perm.grant" = "去授权…";
+
+/* Trackpad Settings */
+"settings.trackpad.modeSection" = "方向联动模式";
+"settings.trackpad.modeLabel" = "触控板模式";
+"settings.trackpad.independentAngle" = "触控板独立角度";
+"settings.trackpad.scopeSection" = "作用范围";
+"settings.trackpad.scopeLabel" = "目标触控板";
+"settings.trackpad.refreshDevices" = "重新扫描设备";
+"settings.trackpad.gesturesSection" = "手势全量跟随旋转";
+"settings.trackpad.remapPointer" = "指针移动与拖移（含三指拖移）";
+"settings.trackpad.remapScroll" = "双指滚动与惯性（保持自然滚动方向）";
+"settings.trackpad.remapPageSwipes" = "双指左右翻页（Safari / Finder 前进后退）";
+"settings.trackpad.remapDockSwipes" = "三/四指切换桌面与调度中心（Spaces / Mission Control）";
+"settings.trackpad.feelSection" = "手感微调";
+"settings.trackpad.pointerSpeed" = "指针速度";
+"settings.trackpad.scrollSpeed" = "滚动速度";
+"settings.trackpad.resetFeel" = "恢复默认速度";
+
+/* Calibration Settings */
+"settings.cal.subtitle" = "在触控板上放置或划动手指：左侧为物理原始坐标，右侧为旋转后的映射方向。";
+"settings.cal.statusWaiting" = "请在触控板上划动手指测试…";
+"settings.cal.statusActive" = "已检测到 %d 指触控";
+"settings.cal.statusNoPermission" = "需要「输入监控」权限以实时预览触控坐标";
+"settings.cal.statusRecording" = "请顺着你眼前的「正上方」在触控板上划一笔…";
+"settings.cal.autoCalibrate" = "向上划一笔自动校准";
+"settings.cal.cancelCalibrate" = "取消";
+"settings.cal.autoResult" = "已识别为 %@ 并应用到触控板";
+"settings.cal.rawBox" = "原始触控板";
+"settings.cal.mappedBox" = "映射后（%@）";
+"settings.cal.swapXY" = "交换 X↔Y";
+"settings.cal.invertX" = "反转 X";
+"settings.cal.invertY" = "反转 Y";
+"settings.cal.resetAxes" = "重置轴向微调";
+"settings.cal.mouseNote" = "外接鼠标不会被拦截，仅响应触控板多点触控信号。";
