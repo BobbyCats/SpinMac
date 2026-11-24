@@ -18,8 +18,19 @@ public enum SpinAngle: Int32, CaseIterable, Codable, Sendable, Identifiable {
         self == .deg90 || self == .deg270
     }
 
-    /// Physical clockwise visual rotation in degrees for rendering a laptop silhouette.
+    /// Physical clockwise visual rotation in degrees per Apple `CGDisplayRotation` convention.
     public var visualRotationDegrees: Double {
+        switch self {
+        case .deg0: return 0
+        case .deg90: return 90
+        case .deg180: return 180
+        case .deg270: return -90
+        }
+    }
+
+    /// Clockwise arrow angle on a flat laptop chassis pointing toward the physical edge that becomes visual TOP.
+    /// Aligned 1:1 with Apple `CGDisplayRotation` + `kIOScaleRotate*` (`90°` -> left edge `-90°`, `270°` -> right edge `+90°`).
+    public var contentTopDegrees: Double {
         switch self {
         case .deg0: return 0
         case .deg90: return -90

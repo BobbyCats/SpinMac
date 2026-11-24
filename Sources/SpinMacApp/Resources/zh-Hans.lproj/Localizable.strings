@@ -6,9 +6,9 @@
 
 /* Angles */
 "angle.0.short" = "横屏";
-"angle.90.short" = "左竖";
+"angle.90.short" = "顶朝左";
 "angle.180.short" = "倒置";
-"angle.270.short" = "右竖";
+"angle.270.short" = "顶朝右";
 
 /* Trackpad Modes */
 "trackpad.mode.linked" = "联动";

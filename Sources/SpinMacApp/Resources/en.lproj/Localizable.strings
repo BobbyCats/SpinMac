@@ -6,9 +6,9 @@
 
 /* Angles */
 "angle.0.short" = "Normal";
-"angle.90.short" = "Left";
+"angle.90.short" = "Top ←";
 "angle.180.short" = "Flipped";
-"angle.270.short" = "Right";
+"angle.270.short" = "Top →";
 
 /* Trackpad Modes */
 "trackpad.mode.linked" = "Linked";

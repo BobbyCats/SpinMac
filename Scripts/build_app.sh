@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 APP_NAME="SpinMac"
 BUNDLE_ID="${BUNDLE_ID:-app.spinmac.SpinMac}"
-VERSION="${VERSION:-0.2.2}"
-BUILD_NUM="${BUILD_NUM:-4}"
+VERSION="${VERSION:-0.2.3}"
+BUILD_NUM="${BUILD_NUM:-5}"
 DIST_DIR="$ROOT_DIR/dist"
 APP_BUNDLE="$DIST_DIR/$APP_NAME.app"
 # Defaults to ad-hoc signing (`-`) for open-source contributors.

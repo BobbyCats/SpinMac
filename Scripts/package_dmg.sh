@@ -9,7 +9,7 @@ set -euo pipefail
 #   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" ./Scripts/package_dmg.sh
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${VERSION:-0.2.2}"
+VERSION="${VERSION:-0.2.3}"
 UNIVERSAL="${UNIVERSAL:-1}"
 SIGN_IDENTITY="${SIGN_IDENTITY:--}"
 DIST_DIR="$ROOT_DIR/dist"

@@ -1,9 +1,10 @@
 import SpinMacCore
 import SwiftUI
 
-/// Dual-body geometric vector MacBook silhouette displaying live Display AND Trackpad orientation.
-/// - Display lid rotates smoothly with `displayAngle`.
-/// - Trackpad directional arrow independently reflects `effectiveTrackpadAngle` and `trackpadMode`.
+/// Flat-chassis dual-body geometric MacBook silhouette displaying live Display AND Trackpad orientation.
+/// - MacBook hardware stays flat and horizontal, matching real flat-on-bed / flat-on-desk placement.
+/// - Inside the display lid, an active edge bar + directional arrow point toward the rotated visual TOP.
+/// - Inside the glass trackpad, an independent directional arrow reflects `effectiveTrackpadAngle` and `trackpadMode`.
 struct MacBookPoseView: View {
     let displayAngle: SpinAngle
     let effectiveTrackpadAngle: SpinAngle
@@ -28,7 +29,7 @@ struct MacBookPoseView: View {
 
     private var trackpadArrowRotation: Double {
         if trackpadMode == .off { return 0 }
-        return -effectiveTrackpadAngle.visualRotationDegrees
+        return effectiveTrackpadAngle.contentTopDegrees
     }
 
     private var stageBadgeText: String {
@@ -51,7 +52,7 @@ struct MacBookPoseView: View {
                         .strokeBorder(Color.primary.opacity(isHovering ? 0.12 : 0.07), lineWidth: 1)
                         .frame(width: 102, height: 102)
 
-                    // Cardinal degree ticks
+                    // Cardinal degree ticks aligned directly with content-top arrow directions (0° up, 90° right, 180° down, 270° left)
                     ForEach(SpinAngle.allCases) { tickAngle in
                         let isDisplayTick = tickAngle == displayAngle
                         let isPadOnlyTick = isIndependentSplit && tickAngle == effectiveTrackpadAngle
@@ -65,19 +66,19 @@ struct MacBookPoseView: View {
                                 height: (isDisplayTick || isPadOnlyTick) ? 5 : 3
                             )
                             .offset(y: -51)
-                            .rotationEffect(.degrees(tickAngle.visualRotationDegrees))
+                            .rotationEffect(.degrees(tickAngle.contentTopDegrees))
                     }
 
-                    // Rotating MacBook hardware silhouette
+                    // Flat MacBook hardware silhouette — stays horizontal while screen & trackpad axes rotate
                     VStack(spacing: 3) {
                         // Display lid
-                        ZStack(alignment: .top) {
+                        ZStack {
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
                                 .fill(
                                     LinearGradient(
                                         colors: [
-                                            Color.accentColor.opacity(displayAngle == .deg0 ? 0.12 : 0.26),
-                                            Color.accentColor.opacity(displayAngle == .deg0 ? 0.05 : 0.11),
+                                            Color.accentColor.opacity(displayAngle == .deg0 ? 0.12 : 0.24),
+                                            Color.accentColor.opacity(displayAngle == .deg0 ? 0.05 : 0.10),
                                         ],
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
@@ -88,28 +89,34 @@ struct MacBookPoseView: View {
                                         .strokeBorder(Color.primary.opacity(0.30), lineWidth: 1.4)
                                 )
 
-                            // Camera notch
-                            RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                                .fill(Color.primary.opacity(0.35))
-                                .frame(width: 12, height: 3)
-                                .padding(.top, 2)
+                            // Physical camera notch stays centered on the top bezel
+                            VStack {
+                                RoundedRectangle(cornerRadius: 1.5, style: .continuous)
+                                    .fill(Color.primary.opacity(0.35))
+                                    .frame(width: 12, height: 3)
+                                    .padding(.top, 2)
+                                Spacer(minLength: 0)
+                            }
 
-                            // Visual "TOP" direction indicator inside display
+                            // Active visual-top ("menu bar") edge indicator inside the flat screen
+                            rotatedTopEdgeBar
+
+                            // Visual "TOP" direction arrow + always-upright angle label
                             VStack(spacing: 1) {
                                 Image(systemName: "arrow.up")
-                                    .font(.system(size: 9.5, weight: .semibold))
+                                    .font(.system(size: 10, weight: .bold))
                                     .foregroundStyle(displayAngle == .deg0 ? Color.secondary : Color.accentColor)
+                                    .rotationEffect(.degrees(displayAngle.contentTopDegrees))
                                 Text(displayAngle.label)
                                     .font(.system(size: 8.5, weight: .semibold, design: .rounded))
                                     .monospacedDigit()
                                     .foregroundStyle(.primary.opacity(0.84))
                             }
-                            .frame(maxHeight: .infinity)
-                            .rotationEffect(.degrees(-displayAngle.visualRotationDegrees))
+                            .padding(.top, 3)
                         }
-                        .frame(width: 64, height: 40)
+                        .frame(width: 66, height: 42)
 
-                        // Lower deck + glass trackpad
+                        // Lower deck + glass trackpad (always flat)
                         ZStack {
                             RoundedRectangle(cornerRadius: 4, style: .continuous)
                                 .fill(Color.primary.opacity(0.06))
@@ -136,10 +143,9 @@ struct MacBookPoseView: View {
                                 }
                                 .frame(width: 24, height: 13)
                         }
-                        .frame(width: 64, height: 20)
+                        .frame(width: 66, height: 20)
                     }
-                    .rotationEffect(.degrees(displayAngle.visualRotationDegrees))
-                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: displayAngle)
+                    .animation(.spring(response: 0.35, dampingFraction: 0.82), value: displayAngle)
                     .animation(.spring(response: 0.35, dampingFraction: 0.82), value: effectiveTrackpadAngle)
                     .animation(.spring(response: 0.3, dampingFraction: 0.85), value: trackpadMode)
                 }
@@ -180,5 +186,39 @@ struct MacBookPoseView: View {
             isPressed = pressing
         }, perform: {})
         .help(l10n.t("popover.pose.help"))
+    }
+
+    @ViewBuilder
+    private var rotatedTopEdgeBar: some View {
+        switch displayAngle {
+        case .deg0:
+            EmptyView()
+        case .deg90:
+            // macOS 90° CW: physical left edge becomes visual top (menu bar)
+            HStack {
+                Capsule()
+                    .fill(Color.accentColor.opacity(0.85))
+                    .frame(width: 2.5, height: 26)
+                    .padding(.leading, 3)
+                Spacer(minLength: 0)
+            }
+        case .deg180:
+            VStack {
+                Spacer(minLength: 0)
+                Capsule()
+                    .fill(Color.accentColor.opacity(0.85))
+                    .frame(width: 34, height: 2.5)
+                    .padding(.bottom, 3)
+            }
+        case .deg270:
+            // macOS 270° CW (90° CCW): physical right edge becomes visual top (menu bar)
+            HStack {
+                Spacer(minLength: 0)
+                Capsule()
+                    .fill(Color.accentColor.opacity(0.85))
+                    .frame(width: 2.5, height: 26)
+                    .padding(.trailing, 3)
+            }
+        }
     }
 }

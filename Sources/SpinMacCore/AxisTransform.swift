@@ -39,15 +39,17 @@ public struct AxisTransform: Equatable, Sendable {
         case .deg0:
             return (x, y)
         case .deg90:
-            // Screen rotated 90° (physical right edge is visual top):
-            // physical +x (right) -> visual -y (up); physical +y (down) -> visual +x (right)
-            return (y, -x)
+            // macOS CGDisplayRotation 90° CW (kIOScaleRotate90 = SwapAxes | InvertX):
+            // physical left edge is visual top; physical top is visual right.
+            // physical -x (left) -> visual -y (up); physical -y (up) -> visual +x (right)
+            return (-y, x)
         case .deg180:
             return (-x, -y)
         case .deg270:
-            // Screen rotated 270° (physical left edge is visual top):
-            // physical -x (left) -> visual -y (up); physical -y (up) -> visual +x (right)
-            return (-y, x)
+            // macOS CGDisplayRotation 270° CW / 90° CCW (kIOScaleRotate270 = SwapAxes | InvertY):
+            // physical right edge is visual top; physical bottom is visual right.
+            // physical +x (right) -> visual -y (up); physical +y (down) -> visual +x (right)
+            return (y, -x)
         }
     }
 
