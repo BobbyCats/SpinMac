@@ -44,6 +44,8 @@
 "popover.footer.settings" = "Settings…";
 "popover.footer.languageHelp" = "Switch interface language";
 "popover.footer.quit" = "Quit";
+"popover.update.banner" = "Update v%@ available";
+"popover.update.cta" = "Update";
 
 /* Tray Context Menu (Right-Click) */
 "menu.quickToggle" = "Quick Toggle (%@ ↔ %@)";
@@ -51,6 +53,8 @@
 "menu.trackpadMode" = "Trackpad Mode";
 "menu.trackpadAngle" = "Independent Trackpad Angle";
 "menu.language" = "Language";
+"menu.checkUpdates" = "Check for Updates…";
+"menu.updateAvailable" = "Update Available (v%@)…";
 "menu.settings" = "Settings & Calibration…";
 "menu.quit" = "Quit SpinMac";
 
@@ -85,6 +89,35 @@
 "settings.perm.inputMonitoring" = "Input Monitoring";
 "settings.perm.granted" = "Granted";
 "settings.perm.grant" = "Grant…";
+"settings.general.updates" = "Software Update";
+"settings.updates.autoCheck" = "Automatically check for updates";
+"settings.updates.checkNow" = "Check Now";
+"settings.updates.viewUpdate" = "Update v%@…";
+"settings.updates.statusChecking" = "Checking…";
+"settings.updates.statusUpToDate" = "Up to date";
+"settings.updates.statusAvailable" = "v%@ available";
+"settings.updates.statusReady" = "v%@ ready to install";
+
+/* Update Sheet */
+"update.sheet.title" = "SpinMac v%@ Available";
+"update.sheet.versionTransition" = "Installed v%@ → New v%@";
+"update.sheet.whatsNew" = "What's New";
+"update.sheet.noNotes" = "Bug fixes and performance improvements.";
+"update.sheet.installHint" = "Notarized Universal DMG verified with SHA-256 before opening.";
+"update.channel.github" = "GitHub";
+"update.channel.mirror" = "China Mirror";
+"update.status.downloadingFrom" = "Downloading from %@…";
+"update.status.shaHint" = "Automatic fallback enabled · SHA-256 integrity check on completion";
+"update.status.verifiedReady" = "SHA-256 verified. Drag SpinMac.app to Applications in the opened DMG window.";
+"update.action.skip" = "Skip Version";
+"update.action.releasePage" = "Release Page";
+"update.action.cancel" = "Cancel";
+"update.action.later" = "Later";
+"update.action.openDmg" = "Open DMG";
+"update.action.downloadInstall" = "Download & Install";
+"update.error.allSources" = "Could not reach update servers. Check your connection or open the release page.";
+"update.error.checksum" = "Downloaded installer failed SHA-256 verification. Please try again or download from GitHub.";
+"update.error.generic" = "Update failed: %@";
 
 /* Trackpad Settings */
 "settings.trackpad.modeSection" = "Orientation Mode";

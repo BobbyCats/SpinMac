@@ -45,7 +45,7 @@ So I built **SpinMac**. Keep your head relaxed on the pillow and **leave the lap
 
 ## Download & Install
 
-1. Grab the latest **`SpinMac-x.x.x-universal.dmg`** from [**GitHub Releases**](https://github.com/BobbyCats/SpinMac/releases/latest) (works natively on both Apple Silicon and Intel Macs, macOS 14.0+).
+1. Grab the latest **`SpinMac-x.x.x-universal.dmg`** from [**GitHub Releases**](https://github.com/BobbyCats/SpinMac/releases/latest) (or the [**China Direct Mirror**](https://jclab.work/downloads/spinmac/SpinMac-latest-universal.dmg); works natively on both Apple Silicon and Intel Macs, macOS 14.0+).
 2. Open the `.dmg` and drag **SpinMac.app** into your **Applications** folder.
 3. Launch **SpinMac** from Applications.
    - **Display rotation** works right away with **zero extra permissions**.
@@ -119,6 +119,7 @@ Everything that works upright continues working sideways:
   - **0.0% Idle CPU**: At `0°` or in `Off` mode, both event taps are disabled and hardware touch callbacks stop completely via reference-counted leases.
   - **Dedicated Event Thread**: `CGEventTap` runs on an isolated `.userInteractive` `CFRunLoop` thread so UI animations never stall cursor motion.
   - **10-Second Rollback HUD**: Switching away from `0°` shows a centered confirmation HUD (`Return` to keep, `Esc` to revert immediately, auto-reverts after 10s).
+  - **Built-in Lightweight Updater**: Checks for new releases silently at most once every 24 hours (zero background update daemon, 0.0% idle CPU) with automatic GitHub / China mirror fallback and mandatory in-app `CryptoKit` SHA-256 verification before opening any downloaded `.dmg`.
   - **Unconditional Cursor Recovery**: Both `applicationWillTerminate` and a C-level `atexit` hook re-associate the hardware cursor on exit.
 
 ---

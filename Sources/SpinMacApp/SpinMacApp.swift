@@ -25,6 +25,15 @@ final class SpinMacApplicationDelegate: NSObject, NSApplicationDelegate {
             onOpenSettings: { [weak settings] in
                 settings?.show()
             },
+            onCheckUpdates: { [weak coord, weak settings] in
+                guard let coord else { return }
+                if coord.detectedUpdateManifest != nil {
+                    settings?.show(presentUpdateSheet: true)
+                } else {
+                    settings?.show(presentUpdateSheet: false)
+                    coord.checkForUpdates(manual: true)
+                }
+            },
             onQuit: { [weak coord] in
                 coord?.shutdownCleanly()
                 NSApp.terminate(nil)

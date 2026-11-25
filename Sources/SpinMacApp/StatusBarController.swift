@@ -11,6 +11,7 @@ import SwiftUI
 final class StatusBarController: NSObject, NSPopoverDelegate {
     private let coordinator: SpinCoordinator
     private let onOpenSettings: () -> Void
+    private let onCheckUpdates: () -> Void
     private let onQuit: () -> Void
 
     private let statusItem: NSStatusItem
@@ -20,10 +21,12 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     init(
         coordinator: SpinCoordinator,
         onOpenSettings: @escaping () -> Void,
+        onCheckUpdates: @escaping () -> Void,
         onQuit: @escaping () -> Void
     ) {
         self.coordinator = coordinator
         self.onOpenSettings = onOpenSettings
+        self.onCheckUpdates = onCheckUpdates
         self.onQuit = onQuit
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         self.popover = NSPopover()
@@ -52,6 +55,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
             onOpenSettings: { [weak self] in
                 self?.closePopover()
                 self?.onOpenSettings()
+            },
+            onOpenUpdates: { [weak self] in
+                self?.closePopover()
+                self?.onCheckUpdates()
             },
             onQuit: { [weak self] in
                 self?.closePopover()
@@ -237,7 +244,17 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
 
         menu.addItem(.separator())
 
-        // 5. Settings & Quit
+        // 5. Updates, Settings & Quit
+        let updateTitle: String
+        if coordinator.hasVisibleUpdateBadge, let manifest = coordinator.detectedUpdateManifest {
+            updateTitle = l10n.t("menu.updateAvailable", manifest.version)
+        } else {
+            updateTitle = l10n.t("menu.checkUpdates")
+        }
+        let updateItem = NSMenuItem(title: updateTitle, action: #selector(menuCheckUpdates), keyEquivalent: "")
+        updateItem.target = self
+        menu.addItem(updateItem)
+
         let settingsItem = NSMenuItem(title: l10n.t("menu.settings"), action: #selector(menuOpenSettings), keyEquivalent: ",")
         settingsItem.target = self
         menu.addItem(settingsItem)
@@ -247,6 +264,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         menu.addItem(quitItem)
 
         return menu
+    }
+
+    @objc private func menuCheckUpdates() {
+        onCheckUpdates()
     }
 
     @objc private func menuQuickToggle() {

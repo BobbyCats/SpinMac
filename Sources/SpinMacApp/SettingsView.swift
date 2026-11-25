@@ -35,7 +35,10 @@ struct SettingsView: View {
         // Re-evaluating TabView toolbar items on language switch while preserving selectedTab
         .id(coordinator.language)
         .environment(\.locale, l10n.resolvedLocale)
-        .frame(minWidth: 540, idealWidth: 556, maxWidth: 620, minHeight: 500, idealHeight: 528)
+        .frame(minWidth: 540, idealWidth: 556, maxWidth: 620, minHeight: 540, idealHeight: 590)
+        .sheet(isPresented: $coordinator.isUpdateSheetPresented) {
+            UpdateSheetView(coordinator: coordinator)
+        }
         .onAppear {
             coordinator.refreshPermissions()
         }

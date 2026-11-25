@@ -4,7 +4,10 @@ import SwiftUI
 struct MenuBarPopoverView: View {
     @Bindable var coordinator: SpinCoordinator
     let onOpenSettings: () -> Void
+    var onOpenUpdates: () -> Void = {}
     let onQuit: () -> Void
+
+    private let updateOrange = Color(red: 0.89, green: 0.36, blue: 0.16)
 
     var body: some View {
         let l10n = coordinator.l10n
@@ -41,6 +44,10 @@ struct MenuBarPopoverView: View {
             }
 
             controlCard(l10n: l10n)
+
+            if coordinator.hasVisibleUpdateBadge, let manifest = coordinator.detectedUpdateManifest {
+                updateBanner(version: manifest.version, l10n: l10n)
+            }
 
             footerBar(l10n: l10n)
         }
@@ -273,6 +280,40 @@ struct MenuBarPopoverView: View {
             .padding(.vertical, 9)
         }
         .modifier(ControlCardModifier())
+    }
+
+    private func updateBanner(version: String, l10n: L10n) -> some View {
+        Button(action: onOpenUpdates) {
+            HStack(spacing: 7) {
+                Image(systemName: "arrow.down.circle.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(updateOrange)
+
+                Text(l10n.t("popover.update.banner", version))
+                    .font(.system(size: 11.5, weight: .medium))
+                    .foregroundStyle(.primary)
+                    .lineLimit(1)
+
+                Spacer(minLength: 4)
+
+                HStack(spacing: 2) {
+                    Text(l10n.t("popover.update.cta"))
+                        .font(.system(size: 10.5, weight: .semibold))
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 8.5, weight: .bold))
+                }
+                .foregroundStyle(updateOrange)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(updateOrange.opacity(0.11), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 9, style: .continuous)
+                    .strokeBorder(updateOrange.opacity(0.24), lineWidth: 0.6)
+            )
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Footer (Settings + Quick Language Switcher + Quit)

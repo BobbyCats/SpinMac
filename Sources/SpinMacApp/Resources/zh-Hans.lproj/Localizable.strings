@@ -44,6 +44,8 @@
 "popover.footer.settings" = "偏好设置…";
 "popover.footer.languageHelp" = "切换界面语言";
 "popover.footer.quit" = "退出";
+"popover.update.banner" = "发现新版本 v%@";
+"popover.update.cta" = "查看";
 
 /* Tray Context Menu (Right-Click) */
 "menu.quickToggle" = "一键翻转（%@ ↔ %@）";
@@ -51,6 +53,8 @@
 "menu.trackpadMode" = "触控板模式";
 "menu.trackpadAngle" = "触控板独立角度";
 "menu.language" = "界面语言";
+"menu.checkUpdates" = "检查更新…";
+"menu.updateAvailable" = "发现新版本（v%@）…";
 "menu.settings" = "偏好与校准…";
 "menu.quit" = "退出 SpinMac";
 
@@ -85,6 +89,35 @@
 "settings.perm.inputMonitoring" = "输入监控（Input Monitoring）";
 "settings.perm.granted" = "已授权";
 "settings.perm.grant" = "去授权…";
+"settings.general.updates" = "软件更新";
+"settings.updates.autoCheck" = "自动检查新版本";
+"settings.updates.checkNow" = "立即检查";
+"settings.updates.viewUpdate" = "更新至 v%@…";
+"settings.updates.statusChecking" = "正在检查…";
+"settings.updates.statusUpToDate" = "已是最新版";
+"settings.updates.statusAvailable" = "可更新至 v%@";
+"settings.updates.statusReady" = "v%@ 已下载并校验通过";
+
+/* Update Sheet */
+"update.sheet.title" = "SpinMac v%@ 已发布";
+"update.sheet.versionTransition" = "当前 v%@ → 最新 v%@";
+"update.sheet.whatsNew" = "更新内容";
+"update.sheet.noNotes" = "常规问题修复与体验优化。";
+"update.sheet.installHint" = "苹果公证全架构安装包，下载后自动校验 SHA-256 并打开镜像。";
+"update.channel.github" = "GitHub";
+"update.channel.mirror" = "国内高速镜像";
+"update.status.downloadingFrom" = "正在从%@下载…";
+"update.status.shaHint" = "支持海外 / 国内自动切换 · 下载完成后自动校验 SHA-256";
+"update.status.verifiedReady" = "SHA-256 校验通过，请在已打开的镜像窗口中将 SpinMac.app 拖入「应用程序」。";
+"update.action.skip" = "跳过此版本";
+"update.action.releasePage" = "打开发布页";
+"update.action.cancel" = "取消";
+"update.action.later" = "稍后";
+"update.action.openDmg" = "打开安装包";
+"update.action.downloadInstall" = "下载并打开安装包";
+"update.error.allSources" = "暂时无法连接更新服务器，请检查网络或直接打开发布页。";
+"update.error.checksum" = "安装包 SHA-256 校验失败，已自动拦截。请重试或从发布页手动下载。";
+"update.error.generic" = "更新失败：%@";
 
 /* Trackpad Settings */
 "settings.trackpad.modeSection" = "方向联动模式";

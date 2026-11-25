@@ -17,7 +17,7 @@ set -euo pipefail
 #   ./Scripts/notarize.sh
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${VERSION:-0.2.4}"
+VERSION="${VERSION:-0.2.5}"
 DMG_PATH="$ROOT_DIR/dist/SpinMac-${VERSION}-universal.dmg"
 
 if [ -z "${SIGN_IDENTITY:-}" ] || [ "$SIGN_IDENTITY" = "-" ]; then

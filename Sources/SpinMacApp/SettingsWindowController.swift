@@ -18,7 +18,10 @@ final class SettingsWindowController: NSObject, NSWindowDelegate {
         observeLanguageForTitle()
     }
 
-    func show() {
+    func show(presentUpdateSheet: Bool = false) {
+        if presentUpdateSheet && coordinator.detectedUpdateManifest != nil {
+            coordinator.isUpdateSheetPresented = true
+        }
         if let window {
             window.title = coordinator.l10n.t("settings.window.title")
             NSApp.activate(ignoringOtherApps: true)
@@ -35,7 +38,7 @@ final class SettingsWindowController: NSObject, NSWindowDelegate {
         win.toolbarStyle = .preference
         win.isReleasedWhenClosed = false
         win.delegate = self
-        win.setContentSize(NSSize(width: 556, height: 528))
+        win.setContentSize(NSSize(width: 556, height: 590))
         win.center()
         self.window = win
 

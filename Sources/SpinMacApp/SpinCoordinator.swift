@@ -5,6 +5,16 @@ import Observation
 import ServiceManagement
 import SpinMacCore
 
+public enum UpdateUIState: Equatable, Sendable {
+    case idle
+    case checking
+    case upToDate(checkedAt: Date)
+    case available(manifest: ReleaseManifest, source: UpdateSourceKind)
+    case downloading(manifest: ReleaseManifest, source: UpdateSourceKind, progress: DownloadProgressSnapshot)
+    case readyToInstall(manifest: ReleaseManifest, source: UpdateSourceKind, dmgURL: URL)
+    case failed(message: String, manifest: ReleaseManifest?, source: UpdateSourceKind?)
+}
+
 @MainActor
 @Observable
 public final class SpinCoordinator {
@@ -15,6 +25,10 @@ public final class SpinCoordinator {
     public private(set) var permissions: PermissionStatus = PermissionsManager.currentStatus()
     public private(set) var statusError: SpinMacError?
     public private(set) var displayShortcutLabel: String = "⌥⇧S"
+
+    // MARK: - Software Update State (Zero-Polling, 0.0% Idle CPU)
+    public private(set) var updateState: UpdateUIState = .idle
+    public var isUpdateSheetPresented: Bool = false
 
     // MARK: - Persisted Preferences
     public var preferredVerticalAngle: SpinAngle {
@@ -44,6 +58,17 @@ public final class SpinCoordinator {
             syncTrackpadEngine()
         }
     }
+    public var autoCheckUpdates: Bool {
+        didSet {
+            savePreferences()
+            if autoCheckUpdates {
+                scheduleBackgroundUpdateCheckIfNeeded(delaySeconds: 1.5)
+            }
+        }
+    }
+    public var skippedUpdateVersion: String? {
+        didSet { savePreferences() }
+    }
     public var launchAtLogin: Bool {
         didSet { applyLaunchAtLogin() }
     }
@@ -58,6 +83,12 @@ public final class SpinCoordinator {
     // MARK: - Engines
     private let displayEngine = DisplayEngine()
     private let trackpadEngine = TrackpadEngine()
+    private let updateChecker = UpdateChecker()
+    private let updateDownloader = UpdateDownloader()
+    private var lastUpdateCheckTimestamp: TimeInterval?
+    private var updateCheckTask: Task<Void, Never>?
+    private var updateDownloadTask: Task<Void, Never>?
+    private static let autoCheckIntervalSeconds: TimeInterval = 24 * 60 * 60
     private var revertTimer: Timer?
     private var permissionPollTimer: Timer?
     private var pendingRefreshTask: Task<Void, Never>?
@@ -73,6 +104,46 @@ public final class SpinCoordinator {
         L10n(language: language)
     }
 
+    public var currentAppVersion: SemanticVersion {
+        SemanticVersion.currentAppVersion()
+    }
+
+    public var currentAppBuild: String {
+        SemanticVersion.currentAppBuild()
+    }
+
+    public var detectedUpdateManifest: ReleaseManifest? {
+        switch updateState {
+        case .available(let manifest, _),
+             .downloading(let manifest, _, _),
+             .readyToInstall(let manifest, _, _):
+            return manifest
+        case .failed(_, let manifest, _):
+            return manifest
+        case .idle, .checking, .upToDate:
+            return nil
+        }
+    }
+
+    public var detectedUpdateSource: UpdateSourceKind? {
+        switch updateState {
+        case .available(_, let source),
+             .downloading(_, let source, _),
+             .readyToInstall(_, let source, _):
+            return source
+        case .failed(_, _, let source):
+            return source
+        case .idle, .checking, .upToDate:
+            return nil
+        }
+    }
+
+    /// True when an unskipped newer version is ready to surface gently in the Popover / tray menu.
+    public var hasVisibleUpdateBadge: Bool {
+        guard let manifest = detectedUpdateManifest else { return false }
+        return skippedUpdateVersion != manifest.version
+    }
+
     public init() {
         let loaded = PreferencesStore.load()
         self.preferredVerticalAngle = loaded.preferredVerticalAngle
@@ -81,6 +152,9 @@ public final class SpinCoordinator {
         self.safetyRollbackEnabled = loaded.safetyRollbackEnabled
         self.language = loaded.language
         self.trackpadConfig = loaded.trackpadConfig
+        self.autoCheckUpdates = loaded.autoCheckUpdates
+        self.skippedUpdateVersion = loaded.skippedUpdateVersion
+        self.lastUpdateCheckTimestamp = loaded.lastUpdateCheckTimestamp
         self.launchAtLogin = SMAppService.mainApp.status == .enabled
 
         calibrationFeed.attach(to: self)
@@ -89,6 +163,7 @@ public final class SpinCoordinator {
         configureGlobalShortcuts()
         syncTrackpadEngine()
         updatePermissionPollingState()
+        scheduleBackgroundUpdateCheckIfNeeded(delaySeconds: 5.0)
     }
 
     // MARK: - Derived State
@@ -219,6 +294,12 @@ public final class SpinCoordinator {
     public func shutdownCleanly() {
         pendingRefreshTask?.cancel()
         pendingRefreshTask = nil
+        updateCheckTask?.cancel()
+        updateCheckTask = nil
+        updateDownloadTask?.cancel()
+        updateDownloadTask = nil
+        let downloader = updateDownloader
+        Task { await downloader.cancel() }
         cancelRevertHUD()
         stopPermissionPolling()
         calibrationFeed.endPreview()
@@ -233,6 +314,173 @@ public final class SpinCoordinator {
         displayEngine.stopObservingReconfiguration()
         trackpadEngine.stop()
         multitouchMonitor.stopAll()
+    }
+
+    // MARK: - Software Updates
+
+    public func checkForUpdates(manual: Bool) {
+        switch updateState {
+        case .downloading:
+            if manual { isUpdateSheetPresented = true }
+            return
+        case .readyToInstall:
+            if manual { isUpdateSheetPresented = true }
+            return
+        default:
+            break
+        }
+
+        updateCheckTask?.cancel()
+        if manual {
+            updateState = .checking
+        }
+
+        let current = currentAppVersion
+        let checker = updateChecker
+        updateCheckTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            do {
+                let outcome = try await checker.check(currentVersion: current)
+                guard !Task.isCancelled else { return }
+                self.lastUpdateCheckTimestamp = Date().timeIntervalSince1970
+                self.savePreferences()
+
+                switch outcome {
+                case .updateAvailable(let manifest, let source):
+                    if manual, self.skippedUpdateVersion == manifest.version {
+                        self.skippedUpdateVersion = nil
+                    }
+                    self.updateState = .available(manifest: manifest, source: source)
+                    if manual {
+                        self.isUpdateSheetPresented = true
+                    }
+                case .upToDate:
+                    self.updateState = .upToDate(checkedAt: Date())
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+                if manual {
+                    self.updateState = .failed(
+                        message: self.localizedUpdateError(error),
+                        manifest: nil,
+                        source: nil
+                    )
+                }
+            }
+        }
+    }
+
+    public func downloadAvailableUpdate() {
+        guard let manifest = detectedUpdateManifest else { return }
+        let source = detectedUpdateSource ?? .githubRaw
+        let initialChannel: DownloadChannel = (source == .chinaMirror || source == .jsDelivr) ? .mirror : .github
+
+        updateDownloadTask?.cancel()
+        updateState = .downloading(
+            manifest: manifest,
+            source: source,
+            progress: DownloadProgressSnapshot(
+                channel: initialChannel,
+                fractionCompleted: 0,
+                bytesReceived: 0,
+                totalBytes: manifest.sizeBytes ?? 0
+            )
+        )
+
+        let downloader = updateDownloader
+        updateDownloadTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            do {
+                let dmgURL = try await downloader.downloadVerifiedDMG(
+                    for: manifest,
+                    winningSource: source,
+                    onProgress: { [weak self] snapshot in
+                        Task { @MainActor [weak self] in
+                            guard let self else { return }
+                            if case .downloading = self.updateState {
+                                self.updateState = .downloading(
+                                    manifest: manifest,
+                                    source: source,
+                                    progress: snapshot
+                                )
+                            }
+                        }
+                    }
+                )
+                guard !Task.isCancelled else { return }
+                self.updateState = .readyToInstall(manifest: manifest, source: source, dmgURL: dmgURL)
+                NSWorkspace.shared.open(dmgURL)
+            } catch UpdateEngineError.cancelled {
+                self.updateState = .available(manifest: manifest, source: source)
+            } catch {
+                guard !Task.isCancelled else { return }
+                self.updateState = .failed(
+                    message: self.localizedUpdateError(error),
+                    manifest: manifest,
+                    source: source
+                )
+            }
+        }
+    }
+
+    public func cancelUpdateDownload() {
+        let manifest = detectedUpdateManifest
+        let source = detectedUpdateSource ?? .githubRaw
+        updateDownloadTask?.cancel()
+        updateDownloadTask = nil
+        let downloader = updateDownloader
+        Task { await downloader.cancel() }
+        if let manifest {
+            updateState = .available(manifest: manifest, source: source)
+        } else {
+            updateState = .idle
+        }
+    }
+
+    public func openDownloadedDMG(_ url: URL) {
+        NSWorkspace.shared.open(url)
+    }
+
+    public func openReleasePage() {
+        let url = detectedUpdateManifest?.releaseUrl
+            ?? URL(string: "https://github.com/BobbyCats/SpinMac/releases/latest")!
+        NSWorkspace.shared.open(url)
+    }
+
+    public func skipAvailableUpdate() {
+        if let manifest = detectedUpdateManifest {
+            skippedUpdateVersion = manifest.version
+        }
+        isUpdateSheetPresented = false
+    }
+
+    private func scheduleBackgroundUpdateCheckIfNeeded(delaySeconds: Double) {
+        guard autoCheckUpdates else { return }
+        if detectedUpdateManifest != nil { return }
+        let now = Date().timeIntervalSince1970
+        if let last = lastUpdateCheckTimestamp, now - last < Self.autoCheckIntervalSeconds {
+            return
+        }
+        updateCheckTask?.cancel()
+        updateCheckTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(delaySeconds))
+            guard !Task.isCancelled, let self, self.autoCheckUpdates else { return }
+            self.checkForUpdates(manual: false)
+        }
+    }
+
+    private func localizedUpdateError(_ error: Error) -> String {
+        if let engineError = error as? UpdateEngineError {
+            switch engineError {
+            case .checksumMismatch:
+                return l10n.t("update.error.checksum")
+            case .allSourcesFailed, .invalidManifest, .untrustedURL, .httpStatus:
+                return l10n.t("update.error.allSources")
+            case .cancelled:
+                return ""
+            }
+        }
+        return l10n.t("update.error.generic", error.localizedDescription)
     }
 
     // MARK: - Private
@@ -262,6 +510,7 @@ public final class SpinCoordinator {
             Task { @MainActor [weak self] in
                 self?.refreshDisplays()
                 self?.refreshTrackpadDevices()
+                self?.scheduleBackgroundUpdateCheckIfNeeded(delaySeconds: 8.0)
             }
         }
     }
@@ -373,6 +622,9 @@ public final class SpinCoordinator {
         prefs.safetyRollbackEnabled = safetyRollbackEnabled
         prefs.language = language
         prefs.trackpadConfig = trackpadConfig
+        prefs.autoCheckUpdates = autoCheckUpdates
+        prefs.skippedUpdateVersion = skippedUpdateVersion
+        prefs.lastUpdateCheckTimestamp = lastUpdateCheckTimestamp
         PreferencesStore.save(prefs)
     }
 }

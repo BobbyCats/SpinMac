@@ -45,7 +45,7 @@
 
 ## 下载与安装（打开就能用）
 
-1. 前往 [**GitHub Releases**](https://github.com/BobbyCats/SpinMac/releases/latest) 下载最新的 **`SpinMac-x.x.x-universal.dmg`**（原生通用包，Apple Silicon 与 Intel 芯片 Mac 均可直接运行，需 macOS 14.0+）。
+1. 前往 [**GitHub Releases**](https://github.com/BobbyCats/SpinMac/releases/latest) 或 [**国内高速直链镜像**](https://jclab.work/downloads/spinmac/SpinMac-latest-universal.dmg) 下载最新的 **`SpinMac-x.x.x-universal.dmg`**（苹果公证全架构通用包，Apple Silicon 与 Intel 芯片 Mac 均可直接运行，需 macOS 14.0+）。
 2. 双击打开 `.dmg`，把 **SpinMac.app** 拖进 **Applications（应用程序）** 文件夹。
 3. 打开 **SpinMac**，顶部菜单栏会出现图标：
    - **屏幕旋转**装好就能直接用，无需额外权限。
@@ -60,7 +60,7 @@
 git clone https://github.com/BobbyCats/SpinMac.git
 cd SpinMac
 
-# 跑完单元测试、编译 Release、校验中英双语 96 项文案并安装到 /Applications/SpinMac.app
+# 跑完单元测试、编译 Release、校验中英双语全量文案并安装到 /Applications/SpinMac.app
 ./Scripts/build_app.sh
 
 # 或者直接打出 Apple Silicon + Intel 通用拖拽安装包 dist/SpinMac-*.dmg
@@ -118,6 +118,7 @@ NOTARY_PROFILE="your-notary-profile" \
   - **静止 0.0% CPU**：切回 `0°` 或关闭触控板旋转时，自动停用双 `CGEventTap` 并通过引用计数彻底停止硬件触控回调。
   - **独立高优先级事件线程**：事件拦截跑在专属 `.userInteractive` 线程，绝不因为界面动画影响光标跟手度。
   - **10 秒防翻车悬浮条**：切入竖屏或倒置时，目标屏幕正中央弹出确认条，按 `Return` 保留、按 `Esc` 立刻还原，10 秒未确认自动复原。
+  - **零负担原生版本检测**：最多每 24 小时静默检查一次更新（不驻留额外守护进程，保持 0.0% 空闲 CPU），自动竞速切换 GitHub 与国内高速镜像，下载完成后强制通过 `CryptoKit` 校验 SHA-256 再打开 `.dmg`。
   - **光标安全底线**：停用、超时、退出或异常终止（`applicationWillTerminate` + `atexit`）都会无条件恢复硬件光标绑定，绝不锁死光标。
 
 ---

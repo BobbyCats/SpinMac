@@ -9,6 +9,9 @@ public struct SpinMacPreferences: Codable, Equatable, Sendable {
     public var safetyRollbackEnabled: Bool = true
     public var language: AppLanguage = .system
     public var trackpadConfig: TrackpadConfig = TrackpadConfig()
+    public var autoCheckUpdates: Bool = true
+    public var skippedUpdateVersion: String? = nil
+    public var lastUpdateCheckTimestamp: TimeInterval? = nil
 
     public init() {}
 
@@ -19,6 +22,9 @@ public struct SpinMacPreferences: Codable, Equatable, Sendable {
         case safetyRollbackEnabled
         case language
         case trackpadConfig
+        case autoCheckUpdates
+        case skippedUpdateVersion
+        case lastUpdateCheckTimestamp
         // Legacy v1 key for seamless upgrade
         case linkTrackpad
     }
@@ -37,6 +43,9 @@ public struct SpinMacPreferences: Codable, Equatable, Sendable {
         safetyRollbackEnabled = try c.decodeIfPresent(Bool.self, forKey: .safetyRollbackEnabled) ?? true
         language = try c.decodeIfPresent(AppLanguage.self, forKey: .language) ?? .system
         trackpadConfig = try c.decodeIfPresent(TrackpadConfig.self, forKey: .trackpadConfig) ?? TrackpadConfig()
+        autoCheckUpdates = try c.decodeIfPresent(Bool.self, forKey: .autoCheckUpdates) ?? true
+        skippedUpdateVersion = try c.decodeIfPresent(String.self, forKey: .skippedUpdateVersion)
+        lastUpdateCheckTimestamp = try c.decodeIfPresent(TimeInterval.self, forKey: .lastUpdateCheckTimestamp)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -47,6 +56,9 @@ public struct SpinMacPreferences: Codable, Equatable, Sendable {
         try c.encode(safetyRollbackEnabled, forKey: .safetyRollbackEnabled)
         try c.encode(language, forKey: .language)
         try c.encode(trackpadConfig, forKey: .trackpadConfig)
+        try c.encode(autoCheckUpdates, forKey: .autoCheckUpdates)
+        try c.encodeIfPresent(skippedUpdateVersion, forKey: .skippedUpdateVersion)
+        try c.encodeIfPresent(lastUpdateCheckTimestamp, forKey: .lastUpdateCheckTimestamp)
     }
 }
 
