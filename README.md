@@ -92,7 +92,16 @@ NOTARY_PROFILE="your-notary-profile" \
 - **Independent Mode** — Set any angle pair independently. Keep your screen horizontal at `0°` while turning a sideways external Magic Trackpad to `270°`, or mix any `0° / 90° / 180° / 270°` combination.
 - **Off Mode** — Rotate only the screen while completely suspending trackpad interception.
 
-### 2. Full Multi-Touch Gesture Parity
+### 2. One-Chord Shortcut & 10s Safety Rollback
+
+<div align="center">
+  <img src="docs/assets/shortcuts-keyboard.png" alt="SpinMac MacBook keyboard shortcut diagram highlighting Control+Option+Command+R to toggle spin and Esc/Return for the 10-second safety rollback HUD" width="100%"/>
+</div>
+
+- **`⌃ ⌥ ⌘ R`** — Hold the three bottom-left modifier keys (`control` + `option` + `command`) and tap `R` to toggle between `0°` and your preferred portrait angle (`90°` or `270°`). Rebindable anytime in **Settings → General**, where you can also set an optional shortcut to cycle Trackpad Mode.
+- **`esc` / `return`** — Whenever you spin away from `0°`, a floating 10-second confirmation HUD appears centered on screen. Tap `esc` to snap straight back to `0°`, tap `return` to confirm immediately, or do nothing and it auto-reverts after 10 seconds.
+
+### 3. Full Multi-Touch Gesture Parity
 Everything that works upright continues working sideways:
 
 | Input / Gesture | Rotated Behavior |
@@ -103,7 +112,7 @@ Everything that works upright continues working sideways:
 | **3/4-Finger Spaces & Mission Control** | Rewrites both `CGEvent` and underlying `IOHIDEvent` Dock-swipe vectors so Spaces, Mission Control, and App Exposé follow your fingers |
 | **External Mice** | Hardware contact gating keeps USB/Bluetooth mice and discrete scroll wheels completely untouched |
 
-### 3. Native Menu Bar Craft & 120fps Calibration
+### 4. Native Menu Bar Craft & 120fps Calibration
 - **Left-Click Popover + Right-Click Tray Menu** — Left-click opens the native Control Center popover with a live dual-body silhouette and instant `EN / 中` bilingual toggle. Right-click opens a native macOS `NSMenu` for one-click angle switching, Trackpad Mode, Language, Settings, and Quit.
 - **120fps Live Calibration & Swipe-Up Auto-Calibrate** — Open **Settings → Calibration** to inspect live raw vs. mapped finger trails on a SwiftUI `Canvas`. Unsure whether your setup is `90°` or `270°`? Click **Swipe Up to Auto-Calibrate**, swipe visually upward once, and SpinMac locks in the angle automatically.
 - **Zero Background Drag & Cursor Safety Net**:
