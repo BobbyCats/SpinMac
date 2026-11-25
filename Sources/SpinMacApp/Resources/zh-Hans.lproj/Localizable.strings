@@ -56,6 +56,7 @@
 "menu.checkUpdates" = "检查更新…";
 "menu.updateAvailable" = "发现新版本（v%@）…";
 "menu.settings" = "偏好与校准…";
+"menu.about" = "关于 SpinMac";
 "menu.quit" = "退出 SpinMac";
 
 /* Errors */
@@ -70,9 +71,14 @@
 
 /* Settings Window & Tabs */
 "settings.window.title" = "SpinMac 偏好设置";
+"settings.toolbar.general" = "通用";
+"settings.toolbar.trackpad" = "触控板";
+"settings.toolbar.calibration" = "方向校准";
+"settings.toolbar.about" = "关于";
 "settings.tab.general" = "通用与快捷键";
 "settings.tab.trackpad" = "触控板与手势";
 "settings.tab.calibration" = "方向校准";
+"settings.tab.about" = "关于 SpinMac";
 
 /* General Settings */
 "settings.general.quickToggle" = "一键翻转";
@@ -152,3 +158,21 @@
 "settings.cal.invertY" = "反转 Y";
 "settings.cal.resetAxes" = "重置轴向微调";
 "settings.cal.mouseNote" = "外接鼠标不会被拦截，仅响应触控板多点触控信号。";
+
+/* About SpinMac */
+"about.tagline" = "让 MacBook 稳稳平放在床上，屏幕、触控板与多指手势同步跟着视线转。";
+"about.archUniversal" = "全架构通用 · Apple Silicon 与 Intel";
+"about.copyDiagnostics" = "复制环境信息";
+"about.copied" = "已复制";
+"about.row.author" = "作者";
+"about.row.twitter" = "X (Twitter)";
+"about.row.github" = "GitHub 开源仓库";
+"about.row.issues" = "反馈问题与建议";
+"about.row.coffee" = "请作者喝杯咖啡";
+"about.row.coffeeAction" = "微信赞赏码";
+"about.privacy" = "静止 0.0% CPU · 零遥测追踪 · 仅在检查更新时联网";
+"about.license" = "MIT 开源协议 · 全局快捷键模块基于 KeyboardShortcuts";
+"about.eyeHealth" = "护眼小提醒：天冷窝被窝写代码虽爽，别天天长时间侧躺盯屏，记得坐直歇歇眼睛和颈椎。";
+"about.coffee.title" = "请 BobbyCat 喝杯咖啡";
+"about.coffee.subtitle" = "如果 SpinMac 刚好帮你的 MacBook 稳稳平躺在床上不再栽倒，欢迎微信扫码请杯咖啡。";
+"about.coffee.close" = "关闭";

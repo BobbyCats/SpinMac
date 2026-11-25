@@ -1,23 +1,19 @@
 {
-  "version": "0.2.5",
-  "build": 7,
-  "pubDate": "2026-11-25T05:31:08Z",
+  "version": "0.2.6",
+  "build": 8,
+  "pubDate": "2026-11-25T07:33:59Z",
   "minMacOS": "14.0",
-  "releaseUrl": "https://github.com/BobbyCats/SpinMac/releases/tag/v0.2.5",
-  "dmgUrl": "https://github.com/BobbyCats/SpinMac/releases/download/v0.2.5/SpinMac-0.2.5-universal.dmg",
-  "mirrorDmgUrl": "https://jclab.work/downloads/spinmac/SpinMac-0.2.5-universal.dmg",
-  "sha256": "7dfe851048c787a002f7bc069ab6db2001874055cb917dc9ec8c07917c498e58",
-  "sizeBytes": 2270999,
+  "releaseUrl": "https://github.com/BobbyCats/SpinMac/releases/tag/v0.2.6",
+  "dmgUrl": "https://github.com/BobbyCats/SpinMac/releases/download/v0.2.6/SpinMac-0.2.6-universal.dmg",
+  "mirrorDmgUrl": "https://jclab.work/downloads/spinmac/SpinMac-0.2.6-universal.dmg",
+  "sha256": "383b93d731a9a90f1113069ec2e1ff6a45da20fd4c21027625837ef72e336bd9",
+  "sizeBytes": 2485253,
   "notes_en": [
-    "Added a built-in lightweight update checker (pure native Swift + CryptoKit, zero extra dependencies, 0.0% idle CPU preserved)",
-    "Dual-region fast lookup racing GitHub and the official China HTTPS mirror with jsDelivr and GitHub API fallbacks",
-    "In-app DMG downloader with live progress, automatic channel fallback, and mandatory SHA-256 integrity verification before opening",
-    "Added Software Update controls in Settings → General, right-click Check for Updates, and a non-intrusive Popover update banner"
+    "Replaced Settings window TabView with a true native macOS Preference NSToolbar (crisp SF Symbol icons, zero top-section clipping, smooth per-tab sizing)",
+    "Added a dedicated About SpinMac tab (plus right-click menu shortcut) with author info, X (@BobbyCat2025), GitHub repo & Issues links, one-click sanitized diagnostics copy, optional coffee tip sheet, and eye-health note"
   ],
   "notes_zh": [
-    "新增纯原生轻量级更新检测（基于 Swift URLSession 与 CryptoKit，零第三方更新框架，保持 0.0% 空闲 CPU）",
-    "支持 GitHub 与国内官网高速镜像（jclab.work）并发竞速检测，并自动回退 jsDelivr CDN 与 GitHub API",
-    "支持应用内实时进度下载、海外/国内通道自动故障切换，以及打开安装包前的强制 SHA-256 完整性校验",
-    "偏好设置「通用」页新增软件更新模块、右键菜单「检查更新」与控制中心非打扰式新版本提示条"
+    "设置窗口重构为标准 macOS 原生偏好设置 NSToolbar（带图标+文字居中顶栏、彻底修复首段被裁切问题、按页签平滑自适应高度）",
+    "新增「关于 SpinMac」页签与右键快捷入口，展示作者信息、X (@BobbyCat2025)、GitHub 仓库与问题反馈、一键复制脱敏诊断信息、可选赞赏码弹窗与护眼提醒"
   ]
 }

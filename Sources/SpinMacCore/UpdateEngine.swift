@@ -99,15 +99,15 @@ public struct SemanticVersion: Comparable, Hashable, Codable, Sendable, CustomSt
         return lParts.count < rParts.count
     }
 
-    public static func currentAppVersion(from bundle: Bundle = .main, fallback: String = "0.2.5") -> SemanticVersion {
+    public static func currentAppVersion(from bundle: Bundle = .main, fallback: String = "0.2.6") -> SemanticVersion {
         if let raw = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
            let parsed = SemanticVersion(string: raw) {
             return parsed
         }
-        return SemanticVersion(string: fallback) ?? SemanticVersion(major: 0, minor: 2, patch: 5)
+        return SemanticVersion(string: fallback) ?? SemanticVersion(major: 0, minor: 2, patch: 6)
     }
 
-    public static func currentAppBuild(from bundle: Bundle = .main, fallback: String = "7") -> String {
+    public static func currentAppBuild(from bundle: Bundle = .main, fallback: String = "8") -> String {
         if let raw = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String, !raw.isEmpty {
             return raw
         }

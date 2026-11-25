@@ -12,6 +12,7 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
     private let coordinator: SpinCoordinator
     private let onOpenSettings: () -> Void
     private let onCheckUpdates: () -> Void
+    private let onOpenAbout: () -> Void
     private let onQuit: () -> Void
 
     private let statusItem: NSStatusItem
@@ -22,11 +23,13 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         coordinator: SpinCoordinator,
         onOpenSettings: @escaping () -> Void,
         onCheckUpdates: @escaping () -> Void,
+        onOpenAbout: @escaping () -> Void,
         onQuit: @escaping () -> Void
     ) {
         self.coordinator = coordinator
         self.onOpenSettings = onOpenSettings
         self.onCheckUpdates = onCheckUpdates
+        self.onOpenAbout = onOpenAbout
         self.onQuit = onQuit
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         self.popover = NSPopover()
@@ -259,6 +262,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
         settingsItem.target = self
         menu.addItem(settingsItem)
 
+        let aboutItem = NSMenuItem(title: l10n.t("menu.about"), action: #selector(menuOpenAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+
         let quitItem = NSMenuItem(title: l10n.t("menu.quit"), action: #selector(menuQuit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
@@ -268,6 +275,10 @@ final class StatusBarController: NSObject, NSPopoverDelegate {
 
     @objc private func menuCheckUpdates() {
         onCheckUpdates()
+    }
+
+    @objc private func menuOpenAbout() {
+        onOpenAbout()
     }
 
     @objc private func menuQuickToggle() {

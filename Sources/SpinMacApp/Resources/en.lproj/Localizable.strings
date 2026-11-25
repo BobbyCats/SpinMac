@@ -56,6 +56,7 @@
 "menu.checkUpdates" = "Check for Updates…";
 "menu.updateAvailable" = "Update Available (v%@)…";
 "menu.settings" = "Settings & Calibration…";
+"menu.about" = "About SpinMac";
 "menu.quit" = "Quit SpinMac";
 
 /* Errors */
@@ -70,9 +71,14 @@
 
 /* Settings Window & Tabs */
 "settings.window.title" = "SpinMac Settings";
+"settings.toolbar.general" = "General";
+"settings.toolbar.trackpad" = "Trackpad";
+"settings.toolbar.calibration" = "Calibration";
+"settings.toolbar.about" = "About";
 "settings.tab.general" = "General";
 "settings.tab.trackpad" = "Trackpad";
 "settings.tab.calibration" = "Calibration";
+"settings.tab.about" = "About SpinMac";
 
 /* General Settings */
 "settings.general.quickToggle" = "Quick Rotation";
@@ -152,3 +158,21 @@
 "settings.cal.invertY" = "Invert Y";
 "settings.cal.resetAxes" = "Reset Overrides";
 "settings.cal.mouseNote" = "External mice are intentionally ignored and pass through untouched.";
+
+/* About SpinMac */
+"about.tagline" = "Keep your MacBook flat on the bed — spin display, trackpad, and gestures together.";
+"about.archUniversal" = "Universal · Apple Silicon & Intel";
+"about.copyDiagnostics" = "Copy Diagnostics";
+"about.copied" = "Copied";
+"about.row.author" = "Author";
+"about.row.twitter" = "X (Twitter)";
+"about.row.github" = "GitHub Repository";
+"about.row.issues" = "Report an Issue";
+"about.row.coffee" = "Buy Me a Coffee";
+"about.row.coffeeAction" = "WeChat Tip";
+"about.privacy" = "0.0% idle CPU · No telemetry · Network used only for update checks";
+"about.license" = "MIT License · Global shortcuts powered by KeyboardShortcuts";
+"about.eyeHealth" = "Eye-health reminder: bed coding is great in small doses — sit up and rest your eyes and neck regularly.";
+"about.coffee.title" = "Buy BobbyCat a Coffee";
+"about.coffee.subtitle" = "Scan with WeChat if SpinMac saved your MacBook from tipping over in bed.";
+"about.coffee.close" = "Done";

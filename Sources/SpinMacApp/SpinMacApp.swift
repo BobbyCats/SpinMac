@@ -23,16 +23,19 @@ final class SpinMacApplicationDelegate: NSObject, NSApplicationDelegate {
         let statusBar = StatusBarController(
             coordinator: coord,
             onOpenSettings: { [weak settings] in
-                settings?.show()
+                settings?.show(tab: .general)
             },
             onCheckUpdates: { [weak coord, weak settings] in
                 guard let coord else { return }
                 if coord.detectedUpdateManifest != nil {
-                    settings?.show(presentUpdateSheet: true)
+                    settings?.show(tab: .general, presentUpdateSheet: true)
                 } else {
-                    settings?.show(presentUpdateSheet: false)
+                    settings?.show(tab: .general, presentUpdateSheet: false)
                     coord.checkForUpdates(manual: true)
                 }
+            },
+            onOpenAbout: { [weak settings] in
+                settings?.show(tab: .about)
             },
             onQuit: { [weak coord] in
                 coord?.shutdownCleanly()
