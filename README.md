@@ -30,12 +30,12 @@ Native SwiftUI & AppKit · Linked or Decoupled Orientation · Full Multi-Touch P
 
 Everyone is vibe coding nonstop right now, and I got completely hooked too. Most nights I am still messing with code past 2 AM. Now that the weather has turned cold, sitting upright at a desk late at night feels miserable. I just want to crawl under a warm blanket early with my laptop.
 
-Lying sideways on a pillow in bed, I realized that standing a MacBook up on its side edge actually lines the screen up with sideways eyes. The problem is obvious the moment you try it on a soft mattress: the laptop wobbles and wants to tip over constantly, and typing or using a vertical trackpad in mid-air is miserable.
+At first, I kept the MacBook flat on the mattress and propped my head up on one hand — within ten minutes my arm went numb and my neck ached. Next, I tried putting my head flat on the pillow and standing the MacBook up on its side edge so the screen lined up with my eyes. The flaw showed up immediately on a soft mattress: the laptop wobbles and wants to tip over constantly, and typing or using a vertical trackpad in mid-air is miserable.
 
-So I built **SpinMac**. Instead of balancing your MacBook on its edge, **leave the laptop completely flat and rock-solid on the bed**, put your head down on the pillow, and spin the display and trackpad in software. macOS hides Display Rotation whenever no external monitor is plugged in, and rotating only the screen leaves the trackpad fighting every swipe. With SpinMac, one shortcut (`⌃⌥⌘R`) rotates the built-in display, the trackpad, and every multi-touch gesture together — `90°` (`Top ←`, left edge up) when lying on your left side, or `270°` (`Top →`, right edge up) when lying on your right side. You can also decouple display and trackpad angles completely.
+So I built **SpinMac**. Keep your head relaxed on the pillow and **leave the laptop completely flat and rock-solid on the bed**, then spin only the display and trackpad in software. macOS hides Display Rotation whenever no external monitor is plugged in, and rotating only the screen leaves the trackpad fighting every swipe. With SpinMac, one shortcut (`⌃⌥⌘R`) rotates the built-in display, the trackpad, and every multi-touch gesture together — `90°` (`Top ←`, left edge up) when lying on your left side, or `270°` (`Top →`, right edge up) when lying on your right side. You can also decouple display and trackpad angles completely.
 
 <div align="center">
-  <img src="docs/assets/before-and-break.png" alt="Before SpinMac: trying to balance a sideways laptop on a soft mattress vs. taking an eye-health break at a desk" width="100%"/>
+  <img src="docs/assets/before-and-break.png" alt="Before SpinMac: propping head up with a numb arm and stiff neck, then trying to balance a sideways laptop on a soft mattress, vs. taking an eye-health break at a desk" width="100%"/>
 </div>
 
 > **Friendly Eye-Health Reminder**
