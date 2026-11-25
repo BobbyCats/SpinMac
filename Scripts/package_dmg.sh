@@ -9,7 +9,7 @@ set -euo pipefail
 #   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" ./Scripts/package_dmg.sh
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${VERSION:-0.2.3}"
+VERSION="${VERSION:-0.2.4}"
 UNIVERSAL="${UNIVERSAL:-1}"
 SIGN_IDENTITY="${SIGN_IDENTITY:--}"
 DIST_DIR="$ROOT_DIR/dist"
@@ -43,7 +43,7 @@ hdiutil create \
     -imagekey zlib-level=9 \
     "$DMG_PATH"
 
-rm -rf "$STAGE_DIR"
+rm -rf "$STAGE_DIR" "$APP_BUNDLE"
 
 if [ "$SIGN_IDENTITY" != "-" ]; then
     echo "==> Signing DMG with Developer ID..."

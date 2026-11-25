@@ -32,7 +32,7 @@ Everyone is vibe coding nonstop right now, and I got completely hooked too. Most
 
 At first, I kept the MacBook flat on the mattress and propped my head up on one hand — within ten minutes my arm went numb and my neck ached. Next, I tried putting my head flat on the pillow and standing the MacBook up on its side edge so the screen lined up with my eyes. The flaw showed up immediately on a soft mattress: the laptop wobbles and wants to tip over constantly, and typing or using a vertical trackpad in mid-air is miserable.
 
-So I built **SpinMac**. Keep your head relaxed on the pillow and **leave the laptop completely flat and rock-solid on the bed**, then spin only the display and trackpad in software. macOS hides Display Rotation whenever no external monitor is plugged in, and rotating only the screen leaves the trackpad fighting every swipe. With SpinMac, one shortcut (`⌃⌥⌘R`) rotates the built-in display, the trackpad, and every multi-touch gesture together — `90°` (`Top ←`, left edge up) when lying on your left side, or `270°` (`Top →`, right edge up) when lying on your right side. You can also decouple display and trackpad angles completely.
+So I built **SpinMac**. Keep your head relaxed on the pillow and **leave the laptop completely flat and rock-solid on the bed**, then spin only the display and trackpad in software. macOS hides Display Rotation whenever no external monitor is plugged in, and rotating only the screen leaves the trackpad fighting every swipe. With SpinMac, one shortcut (`⌥⇧S`) rotates the built-in display, the trackpad, and every multi-touch gesture together — `90°` (`Top ←`, left edge up) when lying on your left side, or `270°` (`Top →`, right edge up) when lying on your right side. You can also decouple display and trackpad angles completely.
 
 <div align="center">
   <img src="docs/assets/before-and-break.png" alt="Before SpinMac: propping head up with a numb arm and stiff neck, then trying to balance a sideways laptop on a soft mattress, vs. taking an eye-health break at a desk" width="100%"/>
@@ -88,17 +88,17 @@ NOTARY_PROFILE="your-notary-profile" \
 </div>
 
 ### 1. Roll Left, Roll Right, or Decouple Completely
-- **Linked Mode (Default)** — Press `⌃⌥⌘R` (or pick `90° / 180° / 270°` in the popover) to spin your built-in display and trackpad together. Rotating an external vertical monitor leaves your laptop's built-in trackpad safely at `0°`.
+- **Linked Mode (Default)** — Press `⌥⇧S` (or pick `90° / 180° / 270°` in the popover) to spin your built-in display and trackpad together. Rotating an external vertical monitor leaves your laptop's built-in trackpad safely at `0°`.
 - **Independent Mode** — Set any angle pair independently. Keep your screen horizontal at `0°` while turning a sideways external Magic Trackpad to `270°`, or mix any `0° / 90° / 180° / 270°` combination.
 - **Off Mode** — Rotate only the screen while completely suspending trackpad interception.
 
 ### 2. One-Chord Shortcut & 10s Safety Rollback
 
 <div align="center">
-  <img src="docs/assets/shortcuts-keyboard.png" alt="SpinMac MacBook keyboard shortcut diagram highlighting Control+Option+Command+R to toggle spin and Esc/Return for the 10-second safety rollback HUD" width="100%"/>
+  <img src="docs/assets/shortcuts-keyboard.png" alt="SpinMac MacBook keyboard shortcut diagram highlighting Option+Shift+S to toggle spin and Esc/Return for the 10-second safety rollback HUD" width="100%"/>
 </div>
 
-- **`⌃ ⌥ ⌘ R`** — Hold the three bottom-left modifier keys (`control` + `option` + `command`) and tap `R` to toggle between `0°` and your preferred portrait angle (`90°` or `270°`). Rebindable anytime in **Settings → General**, where you can also set an optional shortcut to cycle Trackpad Mode.
+- **`⌥ ⇧ S`** — Rest your left pinky on `shift`, thumb on `option`, and tap `S` to toggle between `0°` and your preferred portrait angle (`90°` or `270°`) effortlessly with one hand (zero browser or IDE conflicts). Rebindable anytime in **Settings → General**, where you can also set an optional shortcut to cycle Trackpad Mode.
 - **`esc` / `return`** — Whenever you spin away from `0°`, a floating 10-second confirmation HUD appears centered on screen. Tap `esc` to snap straight back to `0°`, tap `return` to confirm immediately, or do nothing and it auto-reverts after 10 seconds.
 
 ### 3. Full Multi-Touch Gesture Parity

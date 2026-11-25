@@ -14,7 +14,7 @@ public final class SpinCoordinator {
     public private(set) var currentAngle: SpinAngle = .deg0
     public private(set) var permissions: PermissionStatus = PermissionsManager.currentStatus()
     public private(set) var statusError: SpinMacError?
-    public private(set) var displayShortcutLabel: String = "⌃⌥⌘R"
+    public private(set) var displayShortcutLabel: String = "⌥⇧S"
 
     // MARK: - Persisted Preferences
     public var preferredVerticalAngle: SpinAngle {

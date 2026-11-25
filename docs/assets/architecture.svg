@@ -44,7 +44,7 @@
     <text x="16" y="99" fill="#282B30" font-family="'SF Mono', ui-monospace, monospace" font-size="11">• displayAngle: 0|90|180|270</text>
     <text x="16" y="123" fill="#282B30" font-family="'SF Mono', ui-monospace, monospace" font-size="11">• mode: linked | indep | off</text>
     <text x="16" y="147" fill="#282B30" font-family="'SF Mono', ui-monospace, monospace" font-size="11">• independentTrackpadAngle</text>
-    <text x="16" y="171" fill="#282B30" font-family="'SF Mono', ui-monospace, monospace" font-size="11">• Hotkey: ⌃⌥⌘R + Tray Menu</text>
+    <text x="16" y="171" fill="#282B30" font-family="'SF Mono', ui-monospace, monospace" font-size="11">• Hotkey: ⌥⇧S + Tray Menu</text>
 
     <rect x="16" y="188" width="212" height="22" rx="5" fill="#F7F1E5" stroke="#1C1E21" stroke-width="1.2"/>
     <text x="122" y="203" text-anchor="middle" fill="#3D434D" font-family="'SF Mono', ui-monospace, monospace" font-size="10">Left Popover · Right NSMenu</text>
